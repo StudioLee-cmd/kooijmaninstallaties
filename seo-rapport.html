@@ -1,0 +1,683 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SEO Rapport — Kooijman Installaties | StudioLee</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            color: #1a1a2e;
+            background: #ffffff;
+            line-height: 1.6;
+        }
+
+        header {
+            background: #1a1a2e;
+            color: #ffffff;
+            padding: 40px 0;
+        }
+
+        .container {
+            max-width: 960px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        header .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 16px;
+        }
+
+        .header-left h1 {
+            font-size: 28px;
+            font-weight: 700;
+            margin-bottom: 4px;
+        }
+
+        .header-left p {
+            font-size: 14px;
+            color: #94a3b8;
+        }
+
+        .header-right {
+            text-align: right;
+        }
+
+        .header-right .client-name {
+            font-size: 18px;
+            font-weight: 600;
+            color: #3b82f6;
+        }
+
+        .header-right .client-url {
+            font-size: 13px;
+            color: #94a3b8;
+        }
+
+        .header-right .report-date {
+            font-size: 12px;
+            color: #64748b;
+            margin-top: 4px;
+        }
+
+        .score-overview {
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 12px;
+            padding: 32px;
+            margin: 32px 0;
+        }
+
+        .score-overview h2 {
+            font-size: 20px;
+            margin-bottom: 24px;
+            color: #1a1a2e;
+        }
+
+        .total-score {
+            text-align: center;
+            margin-bottom: 32px;
+        }
+
+        .total-score .score-circle {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #ef4444, #dc2626);
+            color: #ffffff;
+            font-size: 40px;
+            font-weight: 800;
+        }
+
+        .total-score .score-label {
+            display: block;
+            margin-top: 8px;
+            font-size: 14px;
+            color: #64748b;
+        }
+
+        .score-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+            gap: 16px;
+        }
+
+        .score-card {
+            background: #ffffff;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 16px;
+            text-align: center;
+        }
+
+        .score-card .score-value {
+            font-size: 28px;
+            font-weight: 700;
+        }
+
+        .score-card .score-max {
+            font-size: 14px;
+            color: #94a3b8;
+        }
+
+        .score-card .score-name {
+            font-size: 13px;
+            color: #64748b;
+            margin-top: 4px;
+        }
+
+        .score-bar {
+            height: 6px;
+            background: #e2e8f0;
+            border-radius: 3px;
+            margin-top: 8px;
+            overflow: hidden;
+        }
+
+        .score-bar-fill {
+            height: 100%;
+            border-radius: 3px;
+            transition: width 0.5s ease;
+        }
+
+        .score-red { color: #ef4444; }
+        .score-orange { color: #f97316; }
+        .score-yellow { color: #eab308; }
+        .bar-red { background: #ef4444; }
+        .bar-orange { background: #f97316; }
+        .bar-yellow { background: #eab308; }
+
+        section {
+            margin: 40px 0;
+        }
+
+        section > h2 {
+            font-size: 22px;
+            font-weight: 700;
+            color: #1a1a2e;
+            margin-bottom: 24px;
+            padding-bottom: 8px;
+            border-bottom: 2px solid #3b82f6;
+        }
+
+        .issue-card {
+            background: #ffffff;
+            border: 1px solid #e2e8f0;
+            border-radius: 10px;
+            padding: 24px;
+            margin-bottom: 16px;
+            border-left: 4px solid #ef4444;
+        }
+
+        .issue-card.medium {
+            border-left-color: #f97316;
+        }
+
+        .issue-card.low {
+            border-left-color: #eab308;
+        }
+
+        .issue-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 8px;
+            gap: 12px;
+        }
+
+        .issue-header h3 {
+            font-size: 16px;
+            font-weight: 600;
+            color: #1a1a2e;
+        }
+
+        .issue-tag {
+            font-size: 11px;
+            font-weight: 600;
+            padding: 3px 10px;
+            border-radius: 20px;
+            white-space: nowrap;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .tag-critical {
+            background: #fef2f2;
+            color: #dc2626;
+        }
+
+        .tag-high {
+            background: #fff7ed;
+            color: #ea580c;
+        }
+
+        .tag-medium {
+            background: #fefce8;
+            color: #ca8a04;
+        }
+
+        .issue-card p {
+            font-size: 14px;
+            color: #475569;
+            margin-bottom: 8px;
+        }
+
+        .issue-impact {
+            font-size: 13px;
+            color: #64748b;
+            font-style: italic;
+        }
+
+        .summary-box {
+            background: #eff6ff;
+            border: 1px solid #bfdbfe;
+            border-radius: 10px;
+            padding: 24px;
+            margin: 32px 0;
+        }
+
+        .summary-box h3 {
+            font-size: 16px;
+            font-weight: 600;
+            color: #1e40af;
+            margin-bottom: 12px;
+        }
+
+        .summary-box ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .summary-box ul li {
+            font-size: 14px;
+            color: #1e3a5f;
+            padding: 6px 0;
+            padding-left: 20px;
+            position: relative;
+        }
+
+        .summary-box ul li::before {
+            content: "\2192";
+            position: absolute;
+            left: 0;
+            color: #3b82f6;
+            font-weight: 700;
+        }
+
+        .pricing-section {
+            background: #1a1a2e;
+            color: #ffffff;
+            border-radius: 12px;
+            padding: 40px 32px;
+            margin: 48px 0;
+        }
+
+        .pricing-section h2 {
+            font-size: 22px;
+            font-weight: 700;
+            margin-bottom: 8px;
+            color: #ffffff;
+            border-bottom: none;
+        }
+
+        .pricing-section .pricing-subtitle {
+            font-size: 14px;
+            color: #94a3b8;
+            margin-bottom: 32px;
+        }
+
+        .pricing-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 20px;
+        }
+
+        .pricing-card {
+            background: rgba(255, 255, 255, 0.06);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            border-radius: 10px;
+            padding: 28px 24px;
+        }
+
+        .pricing-card.featured {
+            border-color: #3b82f6;
+            background: rgba(59, 130, 246, 0.08);
+        }
+
+        .pricing-card .pricing-label {
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: #94a3b8;
+            margin-bottom: 8px;
+        }
+
+        .pricing-card h3 {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 12px;
+        }
+
+        .pricing-card .pricing-price {
+            font-size: 32px;
+            font-weight: 800;
+            color: #3b82f6;
+            margin-bottom: 4px;
+        }
+
+        .pricing-card .pricing-price span {
+            font-size: 14px;
+            font-weight: 400;
+            color: #94a3b8;
+        }
+
+        .pricing-card .pricing-note {
+            font-size: 12px;
+            color: #64748b;
+            margin-bottom: 16px;
+        }
+
+        .pricing-card ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .pricing-card ul li {
+            font-size: 13px;
+            color: #cbd5e1;
+            padding: 5px 0;
+            padding-left: 18px;
+            position: relative;
+        }
+
+        .pricing-card ul li::before {
+            content: "\2713";
+            position: absolute;
+            left: 0;
+            color: #3b82f6;
+            font-weight: 700;
+        }
+
+        .pricing-vat {
+            font-size: 12px;
+            color: #64748b;
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        footer {
+            background: #1a1a2e;
+            color: #94a3b8;
+            padding: 32px 0;
+            text-align: center;
+            margin-top: 48px;
+        }
+
+        footer .footer-brand {
+            font-size: 16px;
+            font-weight: 700;
+            color: #ffffff;
+            margin-bottom: 4px;
+        }
+
+        footer .footer-url {
+            font-size: 13px;
+            color: #3b82f6;
+            text-decoration: none;
+        }
+
+        footer .footer-copy {
+            font-size: 12px;
+            color: #475569;
+            margin-top: 12px;
+        }
+
+        @media (max-width: 640px) {
+            .header-left h1 {
+                font-size: 22px;
+            }
+
+            header .container {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .header-right {
+                text-align: center;
+            }
+
+            .score-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .pricing-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .pricing-section {
+                padding: 28px 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <div class="container">
+        <div class="header-left">
+            <h1>SEO Rapport</h1>
+            <p>Technische audit &amp; aanbevelingen</p>
+        </div>
+        <div class="header-right">
+            <div class="client-name">Kooijman Installaties</div>
+            <div class="client-url">kooijmaninstallaties.nl</div>
+            <div class="report-date">Rapport datum: 1 april 2026</div>
+        </div>
+    </div>
+</header>
+
+<main class="container">
+
+    <!-- Score Overview -->
+    <div class="score-overview">
+        <h2>Score Overzicht</h2>
+        <div class="total-score">
+            <div class="score-circle">22</div>
+            <span class="score-label">Totaalscore van 100</span>
+        </div>
+        <div class="score-grid">
+            <div class="score-card">
+                <div class="score-value score-red">25</div>
+                <div class="score-max">/ 100</div>
+                <div class="score-name">Technische SEO</div>
+                <div class="score-bar"><div class="score-bar-fill bar-red" style="width: 25%"></div></div>
+            </div>
+            <div class="score-card">
+                <div class="score-value score-red">15</div>
+                <div class="score-max">/ 100</div>
+                <div class="score-name">Content</div>
+                <div class="score-bar"><div class="score-bar-fill bar-red" style="width: 15%"></div></div>
+            </div>
+            <div class="score-card">
+                <div class="score-value score-red">10</div>
+                <div class="score-max">/ 100</div>
+                <div class="score-name">Lokale SEO</div>
+                <div class="score-bar"><div class="score-bar-fill bar-red" style="width: 10%"></div></div>
+            </div>
+            <div class="score-card">
+                <div class="score-value score-yellow">55</div>
+                <div class="score-max">/ 100</div>
+                <div class="score-name">Mobile UX</div>
+                <div class="score-bar"><div class="score-bar-fill bar-yellow" style="width: 55%"></div></div>
+            </div>
+            <div class="score-card">
+                <div class="score-value score-orange">35</div>
+                <div class="score-max">/ 100</div>
+                <div class="score-name">Snelheid</div>
+                <div class="score-bar"><div class="score-bar-fill bar-orange" style="width: 35%"></div></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Issues -->
+    <section>
+        <h2>Gevonden Problemen</h2>
+
+        <!-- Issue 1 -->
+        <div class="issue-card">
+            <div class="issue-header">
+                <h3>1. Single-page website</h3>
+                <span class="issue-tag tag-critical">Kritiek</span>
+            </div>
+            <p>Alle content staat op een enkele pagina. Er zijn geen aparte servicepagina's voor ventilatie, elektrotechniek of data/beveiliging. Hierdoor is het onmogelijk om gericht te ranken op specifieke zoektermen per dienst.</p>
+            <p class="issue-impact">Impact: Google kan niet bepalen waar uw site over gaat per onderwerp. Concurrenten met aparte pagina's per dienst ranken hoger op relevante zoektermen.</p>
+        </div>
+
+        <!-- Issue 2 -->
+        <div class="issue-card">
+            <div class="issue-header">
+                <h3>2. Geen blog of content marketing</h3>
+                <span class="issue-tag tag-critical">Kritiek</span>
+            </div>
+            <p>Er is geen blog of kennisbank aanwezig. Zonder regelmatige content is er geen potentie voor organisch zoekverkeer via informatieve zoekopdrachten zoals "ventilatie kantoor kosten" of "elektra aanleggen bedrijfspand".</p>
+            <p class="issue-impact">Impact: U mist honderden potentiele bezoekers per maand die via informatieve zoekopdrachten uw diensten kunnen ontdekken.</p>
+        </div>
+
+        <!-- Issue 3 -->
+        <div class="issue-card">
+            <div class="issue-header">
+                <h3>3. Geen structured data (schema markup)</h3>
+                <span class="issue-tag tag-critical">Kritiek</span>
+            </div>
+            <p>Er is geen LocalBusiness-schema, geen Service-schema en geen Organization-schema geimplementeerd. Google krijgt hierdoor geen gestructureerde informatie over uw bedrijf, diensten, locatie of openingstijden.</p>
+            <p class="issue-impact">Impact: Geen rich snippets in zoekresultaten. Uw vermelding valt minder op dan concurrenten die wel structured data gebruiken.</p>
+        </div>
+
+        <!-- Issue 4 -->
+        <div class="issue-card medium">
+            <div class="issue-header">
+                <h3>4. Geen meta descriptions</h3>
+                <span class="issue-tag tag-high">Hoog</span>
+            </div>
+            <p>De pagina heeft alleen een basis meta-tag. Er zijn geen specifieke meta descriptions per dienst of sectie. Google genereert zelf een snippet, wat vaak niet optimaal is voor click-through rate.</p>
+            <p class="issue-impact">Impact: Lagere click-through rate in zoekresultaten. U verliest clicks aan concurrenten met goed geschreven meta descriptions.</p>
+        </div>
+
+        <!-- Issue 5 -->
+        <div class="issue-card medium">
+            <div class="issue-header">
+                <h3>5. Geen heading hierarchy (H1-structuur)</h3>
+                <span class="issue-tag tag-high">Hoog</span>
+            </div>
+            <p>De pagina-structuur is plat. Er is geen duidelijke heading-hierarchie per dienst (H1 > H2 > H3). Google gebruikt headings om de structuur en het onderwerp van content te begrijpen.</p>
+            <p class="issue-impact">Impact: Google begrijpt de inhoud minder goed. Dit resulteert in lagere rankings voor specifieke dienst-gerelateerde zoektermen.</p>
+        </div>
+
+        <!-- Issue 6 -->
+        <div class="issue-card medium">
+            <div class="issue-header">
+                <h3>6. Google Business Profile niet geoptimaliseerd</h3>
+                <span class="issue-tag tag-high">Hoog</span>
+            </div>
+            <p>Er wordt nergens op de website gerefereerd aan een Google Business Profile. Een volledig ingevuld en geoptimaliseerd profiel is essentieel voor lokale vindbaarheid, zeker voor een installatiebedrijf dat klanten in een specifiek werkgebied bedient.</p>
+            <p class="issue-impact">Impact: Niet zichtbaar in Google Maps en het Local Pack (de top-3 lokale resultaten). Dit is een van de belangrijkste kanalen voor installatietechniek.</p>
+        </div>
+
+        <!-- Issue 7 -->
+        <div class="issue-card medium">
+            <div class="issue-header">
+                <h3>7. Geen reviews of social proof</h3>
+                <span class="issue-tag tag-high">Hoog</span>
+            </div>
+            <p>Er zijn geen klanttestimonials, Google Reviews of andere vormen van social proof zichtbaar op de website. Potentiele klanten kunnen de betrouwbaarheid en kwaliteit van uw diensten niet beoordelen.</p>
+            <p class="issue-impact">Impact: Lagere conversieratio. Bezoekers kiezen eerder voor concurrenten die wel reviews tonen. Google waardeert ook social proof als rankingfactor.</p>
+        </div>
+
+        <!-- Issue 8 -->
+        <div class="issue-card low">
+            <div class="issue-header">
+                <h3>8. Elementor overhead (laadsnelheid)</h3>
+                <span class="issue-tag tag-medium">Medium</span>
+            </div>
+            <p>De website draait op WordPress met Elementor. Dit resulteert in opgeblazen HTML/CSS-code, extra JavaScript-bestanden en langzamere laadtijden. Google gebruikt pagina-snelheid als rankingfactor (Core Web Vitals).</p>
+            <p class="issue-impact">Impact: Langzamere laadtijden leiden tot hogere bounce rates en lagere rankings. Elementor voegt gemiddeld 200-400KB aan onnodige code toe.</p>
+        </div>
+
+        <!-- Issue 9 -->
+        <div class="issue-card low">
+            <div class="issue-header">
+                <h3>9. Geen sitemap.xml</h3>
+                <span class="issue-tag tag-medium">Medium</span>
+            </div>
+            <p>Er is geen XML-sitemap aanwezig. Hoewel dit bij een single-page site minimale impact heeft, is een sitemap standaard best practice en noodzakelijk zodra de site groeit met meer pagina's.</p>
+            <p class="issue-impact">Impact: Google heeft geen overzicht van alle beschikbare pagina's. Nieuwe content wordt langzamer geindexeerd.</p>
+        </div>
+
+        <!-- Issue 10 -->
+        <div class="issue-card low">
+            <div class="issue-header">
+                <h3>10. Geen interne linkstructuur</h3>
+                <span class="issue-tag tag-medium">Medium</span>
+            </div>
+            <p>Met slechts een pagina is interne linking onmogelijk. Interne links helpen Google om de structuur van een website te begrijpen en verdelen "link juice" over pagina's. Dit is fundamenteel voor SEO.</p>
+            <p class="issue-impact">Impact: Geen mogelijkheid om autoriteit te verdelen over dienst-pagina's. Uw site bouwt geen topical authority op.</p>
+        </div>
+    </section>
+
+    <!-- Summary -->
+    <div class="summary-box">
+        <h3>Samenvatting &amp; Prioriteiten</h3>
+        <ul>
+            <li>Bouw aparte pagina's per dienst: ventilatie, elektrotechniek, data &amp; beveiliging</li>
+            <li>Start een blog met minimaal 2 artikelen per maand over installatietechniek</li>
+            <li>Implementeer LocalBusiness + Service schema markup</li>
+            <li>Optimaliseer of maak een Google Business Profile aan</li>
+            <li>Verzamel en toon klantreviews op de website</li>
+            <li>Overweeg migratie van WordPress/Elementor naar een sneller platform</li>
+            <li>Voeg een XML-sitemap en geoptimaliseerde meta descriptions toe</li>
+        </ul>
+    </div>
+
+    <!-- Pricing -->
+    <div class="pricing-section">
+        <h2>Wat kost het om dit op te lossen?</h2>
+        <p class="pricing-subtitle">Drie opties om uw online vindbaarheid te verbeteren</p>
+
+        <div class="pricing-grid">
+            <div class="pricing-card">
+                <div class="pricing-label">Optie 1</div>
+                <h3>Website Kopen</h3>
+                <div class="pricing-price">&euro;800 <span>eenmalig</span></div>
+                <div class="pricing-note">+ &euro;200/jaar hosting</div>
+                <ul>
+                    <li>Professionele meerpagina website</li>
+                    <li>Aparte pagina per dienst</li>
+                    <li>SEO-geoptimaliseerde structuur</li>
+                    <li>Structured data (schema markup)</li>
+                    <li>Mobiel responsive design</li>
+                    <li>Snelle laadtijden (geen Elementor)</li>
+                    <li>XML-sitemap &amp; meta descriptions</li>
+                </ul>
+            </div>
+
+            <div class="pricing-card featured">
+                <div class="pricing-label">Optie 2 — Aanbevolen</div>
+                <h3>AI SaaS Platform</h3>
+                <div class="pricing-price">&euro;79 <span>/maand</span></div>
+                <div class="pricing-note">25-in-1 systeem</div>
+                <ul>
+                    <li>Alles uit Optie 1, plus:</li>
+                    <li>AI-chatbot voor uw website</li>
+                    <li>Geautomatiseerde review-opvolging</li>
+                    <li>CRM &amp; klantbeheer</li>
+                    <li>Social media planning</li>
+                    <li>E-mail &amp; SMS marketing</li>
+                    <li>Online agenda &amp; boekingen</li>
+                    <li>Voice AI telefoonassistent</li>
+                </ul>
+            </div>
+
+            <div class="pricing-card">
+                <div class="pricing-label">Add-on</div>
+                <h3>Managed SEO</h3>
+                <div class="pricing-price">Op aanvraag</div>
+                <div class="pricing-note">Maandelijkse SEO-service</div>
+                <ul>
+                    <li>Keyword research &amp; strategie</li>
+                    <li>Maandelijks blogartikelen</li>
+                    <li>Technische SEO-optimalisatie</li>
+                    <li>Google Business Profile beheer</li>
+                    <li>Maandelijkse rapportage</li>
+                    <li>Concurrentie-analyse</li>
+                </ul>
+            </div>
+        </div>
+
+        <p class="pricing-vat">Alle prijzen zijn exclusief BTW (21%)</p>
+    </div>
+
+</main>
+
+<footer>
+    <div class="container">
+        <div class="footer-brand">StudioLee</div>
+        <a href="https://www.studiolee.nl" class="footer-url" target="_blank">www.studiolee.nl</a>
+        <div class="footer-copy">Dit rapport is gegenereerd door StudioLee &mdash; AI-gedreven webdesign &amp; SEO</div>
+    </div>
+</footer>
+
+</body>
+</html>
