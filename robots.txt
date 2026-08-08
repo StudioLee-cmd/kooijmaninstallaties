@@ -1,0 +1,17 @@
+# Deze build is een VOORSTEL van StudioLee voor Kooijman Installaties, geen publicatie.
+#
+# Waarom alles op disallow staat (besloten en gemeten 2026-08-08, systeem-agent 100467,
+# todo twee-klant-builds-missen-nog-sitemap-en-robots):
+#  1. De echte site van dit bedrijf draait op kooijmaninstallaties.nl. Deze kopie mag daar niet mee
+#     concurreren: een tweede vindbare versie van hetzelfde bedrijf verdeelt de signalen op
+#     z'n eigen merknaam.
+#  2. /concurrentie-analyse en /seo-rapport zijn intern pitch-materiaal over de concurrenten
+#     van deze klant. Dat hoort in geen enkele zoekmachine.
+#  3. De klant is legacy en gepauzeerd (taxonomy.json client_legacy + client_status_override),
+#     dus er is geen lopende afspraak die publicatie rechtvaardigt.
+#
+# Er staat daarom BEWUST GEEN Sitemap-regel in dit bestand en er is geen sitemap.xml gebouwd.
+# Wordt dit alsnog de live site op het eigen domein, dan is de volgorde: dit bestand weghalen
+# EN `python3 alpha1/scripts/gen_static_sitemap.py` draaien. Niet één van de twee.
+User-agent: *
+Disallow: /
