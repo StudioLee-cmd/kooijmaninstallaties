@@ -1,17 +1,24 @@
 # Deze build is een VOORSTEL van StudioLee voor Kooijman Installaties, geen publicatie.
+# De echte site van dit bedrijf draait op kooijmaninstallaties.nl.
 #
-# Waarom alles op disallow staat (besloten en gemeten 2026-08-08, systeem-agent 100467,
-# todo twee-klant-builds-missen-nog-sitemap-en-robots):
-#  1. De echte site van dit bedrijf draait op kooijmaninstallaties.nl. Deze kopie mag daar niet mee
-#     concurreren: een tweede vindbare versie van hetzelfde bedrijf verdeelt de signalen op
-#     z'n eigen merknaam.
-#  2. /concurrentie-analyse en /seo-rapport zijn intern pitch-materiaal over de concurrenten
-#     van deze klant. Dat hoort in geen enkele zoekmachine.
-#  3. De klant is legacy en gepauzeerd (taxonomy.json client_legacy + client_status_override),
-#     dus er is geen lopende afspraak die publicatie rechtvaardigt.
+# CRAWLEN MAG, INDEXEREN NIET — en die twee zijn met opzet uit elkaar gehaald.
+# De indexatie-blokkade zit in vercel.json als `X-Robots-Tag: noindex, nofollow` met een
+# host-conditie op *.vercel.app. Dat is de juiste laag, om drie redenen:
+#   1. Een `Disallow: /` hier zou de crawler de pagina's niet laten OPHALEN, dus die header
+#      werd dan nooit gelezen en de URL's konden alsnog kaal in de index landen. Blokkeren
+#      via robots.txt is zwakker dan het lijkt.
+#   2. robots.txt is publiek. Een Disallow-regel op /concurrentie-analyse of /seo-rapport zou
+#      een wegwijzer zijn naar precies het document dat niet gelezen hoort te worden.
+#   3. De host-conditie VALT VANZELF WEG zodra kooijmaninstallaties.nl aan dit Vercel-project hangt. Niemand
+#      hoeft dan iets weg te halen — een vergeten noindex is de duurste faalmodus bij een livegang.
 #
-# Er staat daarom BEWUST GEEN Sitemap-regel in dit bestand en er is geen sitemap.xml gebouwd.
-# Wordt dit alsnog de live site op het eigen domein, dan is de volgorde: dit bestand weghalen
-# EN `python3 alpha1/scripts/gen_static_sitemap.py` draaien. Niet één van de twee.
+# Er is BEWUST geen sitemap.xml en dus geen Sitemap-regel: een niet-geadopteerde kopie aanmelden
+# voor indexering zou concurreren met de echte site van dit bedrijf.
+# Gezet 2026-08-08 · systeem-agent 100467 · todo twee-klant-builds-missen-nog-sitemap-en-robots
+# Wordt dit alsnog de live site: de host-conditie regelt zichzelf, en dán pas
+# `python3 alpha1/scripts/gen_static_sitemap.py` draaien voor een echte sitemap.
 User-agent: *
-Disallow: /
+Allow: /
+
+# De meegeleverde font-demo's van de Residem-template: 200, maar zonder inhoud.
+Disallow: /fonts/
